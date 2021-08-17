@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<!--include header-->
+
+<ui:insert name = "header" >
+   <ui:include src = "/WEB-INF/template/header.xhtml" />
+
+</ui:insert>
+
+<!--main content-->
+<h:body>
+
+   <div class="container-fluid">
+      <div class="row  height rounded mt-5 align-items-center justify-content-center">
+         <div class="col-md-5 col-sm-9 col-12">
+            <div class="row">
+
+               <div class="col-12 text-secondary display-4">
+                  Change Your Password
+                  <hr/>
+               </div>
+
+               <div class="col-12">
+                  <h:form id="change-pass">
+
+                     <div class="mb-3">
+                        <h:outputLabel for="password" class="form-label">New Password:</h:outputLabel>
+                        <h:inputText id="password"  class="form-control form-control-lg" value="#{userCreation.password}" required="true" requiredMessage="Password is required"/>
+
+                     </div>
+
+                     <div class="mb-3">
+                        <h:commandButton id="submit-button" class="bg-danger ps-4 pe-4 pt-2 pb-2 rounded col-3 text-white border-0" value="Change" action="#{userCreation.updatePass()}"/>
+                     </div>
+                  </h:form>
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+</h:body>
+
+<!--include footer-->
+<ui:insert name = "footer" >
+   <ui:include src = "/WEB-INF/template/footer.xhtml" />
+</ui:insert>
+
+</html>

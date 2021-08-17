@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<!--include header-->
+
+<ui:insert name = "header" >
+   <ui:include src = "/WEB-INF/template/header.xhtml" />
+
+</ui:insert>
+
+<!--main content-->
+<h:body>
+   <div class="container-fluid">
+      <div class="row  rounded mt-5  justify-content-center">
+         <div class="col-12">
+            <div class="row justify-content-center">
+                           <div class="col-7 mt-3 fs-3">
+                              Update User
+                              <hr/>
+                           </div>
+                           <div class="col-7">
+                              <h:form>
+
+                                 <div class="mb-3">
+                                    <h:outputLabel for="fName" class="form-label">First Name:</h:outputLabel>
+                                    <h:inputText id="fName"  class="form-control form-control" value="#{userCreation.firstName}" required="true" requiredMessage="First Name is required"/>
+                                    <!--                                <h:message for="email" styleClass="text-danger" />-->
+                                 </div>
+
+                                 <div class="mb-3">
+                                    <h:outputLabel for="lName" class="form-label">Last Name:</h:outputLabel>
+                                    <h:inputText id="lName"  class="form-control form-control" value="#{userCreation.lastName}" required="true" requiredMessage="Last Name is required"/>
+                                    <!--                                <h:message for="email" styleClass="text-danger" />-->
+                                 </div>
+
+                                 <div class="mb-3">
+                                    <h:outputLabel for="email" class="form-label">Email Address:</h:outputLabel>
+                                    <h:inputText id="email"  class="form-control form-control" value="#{userCreation.email}" required="true" requiredMessage="Email is required"/>
+                                    <!--                                <h:message for="email" styleClass="text-danger" />-->
+                                 </div>
+
+                                 <div class="mb-3">
+                                    <h:outputLabel for="password" class="form-label">Password:</h:outputLabel>
+                                    <h:inputText id="password"  class="form-control form-control" value="#{userCreation.password}" required="true" requiredMessage="Password is required"/>
+                                    <!--                                <h:message for="password" styleClass="text-danger" />-->
+                                 </div>
+
+                                 <div class="mb-3">
+                                    <h:outputLabel class="form-label">Gender:</h:outputLabel>
+                                    <h:selectOneRadio styleClass="" value="#{userCreation.gender}">
+                                       <f:selectItem  itemValue="male" itemLabel="Male" />
+                                       <f:selectItem itemValue="female" itemLabel="Female" />
+                                    </h:selectOneRadio>
+                                 </div>
+
+                                 <div class="mb-3">
+                                    <h:outputLabel for="mobile" class="form-label">Mobile:</h:outputLabel>
+                                    <h:inputText id="mobile"  class="form-control form-control" value="#{userCreation.mobile}"  requiredMessage="Email is required"/>
+                                    <!--                                <h:message for="email" styleClass="text-danger" />-->
+                                 </div>
+
+                                 <div class="mb-3">
+                                    <h:outputLabel for="designation" class="form-label">Designation:</h:outputLabel>
+                                    <h:inputText id="designation"  class="form-control form-control" value="#{userCreation.designation}"  requiredMessage="Email is required"/>
+                                    <!--                                <h:message for="email" styleClass="text-danger" />-->
+                                 </div>
+
+                                 <div class="mb-3">
+                                    <h:outputLabel class="form-label">Status:</h:outputLabel>
+                                    <h:selectOneRadio styleClass="" value="#{userCreation.status}">
+                                       <f:selectItem  itemValue="1" itemLabel="Active" />
+                                       <f:selectItem itemValue="2" itemLabel="Pending" />
+                                    </h:selectOneRadio>
+                                 </div>
+
+                                 <div class="mb-3">
+                                    <h:outputLabel class="form-label">User Type:</h:outputLabel>
+                                    <h:selectOneRadio styleClass="" value="#{userCreation.roleId}" required="true" requiredMessage="User Type is required">
+                                       <f:selectItem  itemValue="2" itemLabel="General" />
+                                       <f:selectItem itemValue="1" itemLabel="Administrator" />
+                                    </h:selectOneRadio>
+                                 </div>
+                                 <div class="mb-3 text-center">
+                                    <h:commandButton id="update-button" class="bg-primary ps-4 pe-4 pt-2 pb-2 rounded col-lg-6 col-md-4 col-sm-3 col-auto text-white border-0" value="Update User" action="#{userCreation.updateUser(userCreation.id)}"/>
+                                 </div>
+                              </h:form>
+                           </div>
+
+                  </div>
+
+         </div>
+      </div>
+   </div>
+
+</h:body>
+
+<!--include footer-->
+
+<ui:insert name = "footer" >
+   <ui:include src = "/WEB-INF/template/footer.xhtml" />
+
+</ui:insert>
+</html>
+

@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jstl/core">
+
+<!--include header-->
+
+<ui:insert name = "header" >
+   <ui:include src = "/WEB-INF/template/header.xhtml" />
+
+</ui:insert>
+
+<!--main content-->
+<h:body>
+   <div class="container-fluid">
+      <div class="row  rounded mt-5  justify-content-center">
+         <div class="col-11">
+            <div class="row">
+
+               <div class="col-12">
+                  <div class="row justify-content-between bg-success p-2 rounded text-white">
+                     <div class="col-1 mt-2">Dashboard</div>
+                     <div class="col-2 ms-5">
+
+                        <div class="btn-group float-start">
+                           <button class="btn dropdown-toggle text-white" type="button" id="defaultDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                              #{session.getAttribute("userName")}
+                           </button>
+                           <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
+                              <li><a class="dropdown-item" href="adminDetails.xhtml">My Profile</a></li>
+                              <li><a class="dropdown-item" href="changePass.xhtml">Change Password</a></li>
+                           </ul>
+                        </div>
+
+                        <div class="ms-5 mt-2">
+                           <h:form>
+
+                              <h:commandButton id="logout-button" class="text-white text-decoration-none bg-transparent border-0" value="Logout" action="#{authenticateUser.logout()}"/>
+                           </h:form>
+
+                        </div>
+
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-12">
+                  <div class="row">
+                     <div class="col-2 mt-4 ">
+                        <div class="ms-3 border-dark border-end">
+                           <div class="mt-2"><a class="text-decoration-none" href="adminDashboard.xhtml">Dashboard</a></div>
+                           <div class="mt-3"><a class="text-decoration-none" href="allUserRecords.xhtml">User List</a></div>
+                        </div>
+                     </div>
+                     <div class="col-10">
+                        <div class="row">
+
+                           <div class="col-12 mt-3">
+                              User List
+                              <hr/>
+                           </div>
+
+                           <div class="col-12 text-end">
+                              <button type="button" class="btn btn-success mb-md-3 mb-sm-2 mb-1" data-bs-toggle="modal" data-bs-target="#addModal">
+                                Add
+                              </button>
+                           </div>
+
+                           <div class="table-responsive">
+                              <h:dataTable  id="table_id" value = "#{allUserRecords.allUsers}" var = "user"
+                                            styleClass = "table table-bordered mt-5 display align-middle"
+                                            headerClass = "align-middle"
+                                            rowClasses = "align-middle">
+
+                                 <h:column>
+                                    <f:facet name = "header">ID</f:facet>
+                                    #{user.num}
+                                 </h:column>
+
+                                 <h:column>
+                                    <f:facet name = "header">Name</f:facet>
+                                    #{user.name}
+                                 </h:column>
+
+                                 <h:column>
+                                    <f:facet name = "header">Gender</f:facet>
+                                    #{user.gender}
+                                 </h:column>
+
+                                 <h:column>
+                                    <f:facet name = "header">Email</f:facet>
+                                    #{user.email}
+                                 </h:column>
+
+                                 <h:column>
+                                    <f:facet name = "header">Mobile</f:facet>
+                                    #{user.mobile}
+                                 </h:column>
+
+                                 <h:column>
+                                    <f:facet name = "header">Role</f:facet>
+                                    #{user.role}
+                                 </h:column>
+
+                                 <h:column>
+                                    <f:facet name = "header"></f:facet>
+                                    <div class="text-center">
+                                       <h:outputText rendered="#{user.status == 1}" styleClass="badge bg-success" value="Active" ></h:outputText>
+                                       <h:outputText rendered="#{user.status == 2}" styleClass="badge bg-warning" value="In-Active" ></h:outputText>
+                                       <h:outputText rendered="#{user.status == 3}" styleClass="badge bg-danger" value="Deleted" ></h:outputText>
+                                    </div>
+                                 </h:column>
+
+                                 <h:column>
+                                    <f:facet name = "header"></f:facet>
+                                    <div class="text-center">
+                                          <div class="text-center">
+                                             <button id="${user.id}" onclick="userUpdate(this)" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal">Update</button>
+                                          </div>
+                                    </div>
+                                 </h:column>
+
+                                 <h:column>
+                                    <f:facet name = "header"></f:facet>
+                                    <h:form>
+                                       <div class="text-center">
+                                          <h:commandButton id="delete-button" class="bg-danger ps-4 pe-4 pt-2 pb-2 rounded  text-white border-0"
+                                                           value="Delete" onclick="if (!confirm('Did you want to delete the user?')) return false"
+
+                                                           action="#{deleteUser.delete(user.id)}"/>
+                                       </div>
+
+                                    </h:form>
+                                 </h:column>
+
+                              </h:dataTable>
+                           </div>
+
+
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+<!--   add model-->
+
+
+   <!-- Modal -->
+   <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="addModalLabel">Add User</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <h:form>
+
+               <div class="modal-body">
+
+                  <a href="#{userCreation.clearData()}"></a>
+                  <div class="mb-3">
+                     <h:outputLabel for="fName" class="form-label">First Name:</h:outputLabel>
+                     <h:inputText id="fName"  class="form-control form-control" value="#{userCreation.firstName}" required="true"
+                                  requiredMessage="First Name is required"/>
+
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="lName" class="form-label">Last Name:</h:outputLabel>
+                     <h:inputText id="lName"  class="form-control form-control" value="#{userCreation.lastName}" required="true"
+                                  requiredMessage="Last Name is required"/>
+                     <!--                                <h:message for="email" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="email" class="form-label">Email Address:</h:outputLabel>
+                     <h:inputText id="email"  class="form-control form-control" value="#{userCreation.email}" required="true"
+                                  requiredMessage="Email is required"/>
+                     <!--                                <h:message for="email" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="password" class="form-label">Password:</h:outputLabel>
+                     <h:inputSecret id="password"  class="form-control form-control" value="#{userCreation.password}" required="true"
+                                    requiredMessage="Password is required"/>
+                     <!--                                <h:message for="password" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel class="form-label">Gender:</h:outputLabel>
+                     <h:selectOneRadio styleClass="" value="#{userCreation.gender}">
+                        <f:selectItem  itemValue="male" itemLabel="Male" />
+                        <f:selectItem itemValue="female" itemLabel="Female" />
+                     </h:selectOneRadio>
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="mobile" class="form-label">Mobile:</h:outputLabel>
+                     <h:inputText id="mobile"  class="form-control form-control" value="#{userCreation.mobile}"
+                                  requiredMessage="Email is required"/>
+                     <!--                                <h:message for="email" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="designation" class="form-label">Designation:</h:outputLabel>
+                     <h:inputText id="designation"  class="form-control form-control" value="#{userCreation.designation}"
+                                  requiredMessage="Email is required"/>
+                     <!--                                <h:message for="email" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel class="form-label" >Status:</h:outputLabel>
+                     <h:selectOneRadio styleClass="" value="#{userCreation.status}" required="true"
+                                       requiredMessage="Status is required">
+                        <f:selectItem  itemValue="1" itemLabel="Active" />
+                        <f:selectItem itemValue="2" itemLabel="Pending" />
+                     </h:selectOneRadio>
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel class="form-label">User Type:</h:outputLabel>
+                     <h:selectOneRadio styleClass="" value="#{userCreation.roleId}" required="true"
+                                       requiredMessage="User Type is required">
+                        <f:selectItem  itemValue="2" itemLabel="General" />
+                        <f:selectItem itemValue="1" itemLabel="Administrator" />
+                     </h:selectOneRadio>
+                  </div>
+
+               </div>
+               <div class="modal-footer">
+                  <h:commandButton id="submit-button" class="btn btn-success" value="Add User" action="#{userCreation.addUser()}"/>
+
+                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+               </div>
+            </h:form>
+         </div>
+      </div>
+   </div>
+<!--   add model end-->
+
+   <!--   update model-->
+
+
+   <!-- Modal -->
+   <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="updateModalLabel">Update User</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <h:form>
+
+               <div class="modal-body">
+
+                  <h:panelGroup styleClass="someCssClass">
+                     <h:inputHidden id="someId" value="#{userCreation.id}" />
+                  </h:panelGroup>
+                  <div class="mb-3">
+                     <h:outputLabel for="firstName" class="form-label">First Name:</h:outputLabel>
+                     <h:inputText id="firstName"  class="fname form-control form-control" value="#{userCreation.firstName}" required="true"
+                                  requiredMessage="First Name is required"/>
+
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="lastName" class="form-label">Last Name:</h:outputLabel>
+                     <h:inputText id="lastName"  class="lname form-control form-control" value="#{userCreation.lastName}" required="true"
+                                  requiredMessage="Last Name is required"/>
+                     <!--                                <h:message for="email" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="email1" class="form-label">Email Address:</h:outputLabel>
+                     <h:inputText id="email1"  class="email form-control form-control" value="#{userCreation.email}" required="true"
+                                  requiredMessage="Email is required"/>
+                     <!--                                <h:message for="email" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="pass" class="form-label">Password:</h:outputLabel>
+                     <h:inputSecret id="pass"  class="pass form-control form-control" value="#{userCreation.password}" required="true"
+                                    requiredMessage="Password is required"/>
+                     <!--                                <h:message for="password" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel class="form-label">Gender:</h:outputLabel>
+                     <h:selectOneRadio styleClass="male" value="#{userCreation.gender}">
+                        <f:selectItem  itemValue="male" itemLabel="Male" />
+                        <f:selectItem itemValue="female" itemLabel="Female" />
+                     </h:selectOneRadio>
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="mobile1" class="form-label">Mobile:</h:outputLabel>
+                     <h:inputText id="mobile1"  class="mob form-control form-control" value="#{userCreation.mobile}"
+                                  requiredMessage="Email is required"/>
+                     <!--                                <h:message for="email" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel for="designation1" class="form-label">Designation:</h:outputLabel>
+                     <h:inputText id="designation1"  class="des form-control form-control" value="#{userCreation.designation}"
+                                  requiredMessage="Email is required"/>
+                     <!--                                <h:message for="email" styleClass="text-danger" />-->
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel class="form-label" >Status:</h:outputLabel>
+                     <h:selectOneRadio styleClass="status" value="#{userCreation.status}" required="true"
+                                       requiredMessage="Status is required">
+                        <f:selectItem  itemValue="1" itemLabel="Active" />
+                        <f:selectItem itemValue="2" itemLabel="Pending" />
+                     </h:selectOneRadio>
+                  </div>
+
+                  <div class="mb-3">
+                     <h:outputLabel class="form-label">User Type:</h:outputLabel>
+                     <h:selectOneRadio styleClass="role" value="#{userCreation.roleId}" required="true"
+                                       requiredMessage="User Type is required">
+                        <f:selectItem  itemValue="2" itemLabel="General" />
+                        <f:selectItem itemValue="1" itemLabel="Administrator" />
+                     </h:selectOneRadio>
+                  </div>
+
+               </div>
+               <div class="modal-footer">
+                  <h:commandButton id="submit-button1" class="btn btn-success" value="Update User" action="#{userCreation.updateUser(1)}"/>
+
+                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+               </div>
+            </h:form>
+         </div>
+      </div>
+   </div>
+   <!--   update model end-->
+
+</h:body>
+
+<!--include footer-->
+
+<ui:insert name = "footer" >
+   <ui:include src = "/WEB-INF/template/footer.xhtml" />
+
+</ui:insert>
+</html>
+

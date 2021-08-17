@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<!--include header-->
+
+<ui:insert name = "header" >
+    <ui:include src = "/WEB-INF/template/header.xhtml" />
+
+</ui:insert>
+
+<!--main content-->
+<h:body>
+<div class="container-fluid">
+    <div class="row  rounded mt-5  justify-content-center">
+        <div class="col-11">
+            <div class="row">
+
+                <div class="col-12">
+                    <div class="row justify-content-between bg-success p-2 rounded text-white">
+                        <div class="col-1 mt-2">Dashboard</div>
+                        <div class="col-2 ms-5">
+
+                            <div class="btn-group float-start">
+                                <button class="btn dropdown-toggle text-white" type="button" id="defaultDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                                    #{session.getAttribute("userName")}
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
+                                    <li><a class="dropdown-item" href="adminDetails.xhtml">My Profile</a></li>
+                                    <li><a class="dropdown-item" href="changePass.xhtml">Change Password</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="ms-5 mt-2">
+                                <h:form>
+
+                                        <h:commandButton id="logout-button" class="text-white text-decoration-none bg-transparent border-0" value="Logout" action="#{authenticateUser.logout()}"/>
+                                </h:form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-2 mt-4 ">
+                            <div class="ms-3 border-dark border-end">
+                                <div class="mt-2"><a class="text-decoration-none" href="adminDashboard.xhtml">Dashboard</a></div>
+                                <div class="mt-3"><a class="text-decoration-none" href="allUserRecords.xhtml">User List</a></div>
+                            </div>
+                        </div>
+                        <div class="col-10">
+                            <div class="row">
+
+                                <div class="col-12 mt-3">
+                                    My Dashboard
+                                    <hr/>
+                                </div>
+
+                                <div class="row mt-2 ms-1 fw-light">
+                                    <div class="col-3 text-center">
+                                        <div class="bg-warning pt-5 pb-5 rounded fs-4">
+                                            <div>#{dashboard.totalUsers}</div>
+                                            <div>Total Users</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3 text-center">
+                                        <div class="bg-info pt-5 pb-5 rounded fs-4">
+                                            <div>#{dashboard.activeUsers}</div>
+                                            <div>Total Active Users</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3 text-center">
+                                        <div class="bg-info pt-5 pb-5 rounded fs-4">
+                                            <div>#{dashboard.pendingUsers}</div>
+                                            <div>Total Pending Users</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3 text-center">
+                                        <div class="bg-danger pt-5 pb-5 rounded fs-4">
+                                            <div>#{dashboard.deletedUsers}</div>
+                                            <div>Total Deleted Users</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</h:body>
+
+<!--include footer-->
+
+<ui:insert name = "footer" >
+    <ui:include src = "/WEB-INF/template/footer.xhtml" />
+
+</ui:insert>
+</html>
+
